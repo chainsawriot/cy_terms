@@ -12,7 +12,7 @@
             <canvas width="800" height="600" id="terms689">
             </canvas>
         </div>
-	<br><br><br>方法：以南華早報發放之施政報告文本( <a href="http://widgets.scmp.com/infographic/20140113/policyaddress/data/">Sam et al</a>) 作分析。中文文本經 Tokenize 及除去 stopwords 後，以 chi-square 對比梁振英及曾蔭權在施政報告的用詞。文字雲只展示梁振英相對用詞較多的關鍵詞。(以 Relative Risk 量化) 文字雲字體大小以 chi-square 決定。<br><br>
+	<br><br><br>方法：以南華早報發放之施政報告文本( <a href="http://widgets.scmp.com/infographic/20140113/policyaddress/data/">Sam et al</a>) 作分析。中文文本經 Tokenize 及除去 stopwords 後，以 chi-square 對比梁振英( 2013 年)及曾蔭權( 2006 至 2012 年)在施政報告的用詞。文字雲只展示梁振英相對用詞較多的關鍵詞。(以 Relative Risk 量化) 文字雲字體大小以 chi-square 決定。<br><br>
 作者： <a href="https://github.com/chainsawriot">Chung-hong Chan</a>, PhD Student, Journalism & Media Studies Centre, HKU
     </body>
 </html>
