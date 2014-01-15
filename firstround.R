@@ -5,11 +5,15 @@ base_url <- "http://widgets.scmp.com/infographic/20140113/policyaddress/data/chi
 require(plyr)
 tsang_text <- ldply(seq(2006, 2012), function(x) { read.csv(paste0(base_url, x, ".all.csv"), stringsAsFactor=FALSE) })[,2]
 
+
 cy_text <- c(read.csv(paste0(base_url, "2013", ".all.csv"), stringsAsFactor=FALSE)[,2], read.csv("2014.all.csv", stringsAsFactor=FALSE)[,2])
 
-write.csv(tsang_text, file="tsang_text.csv", row.names=FALSE)
+cy_text <- strsplit(paste(cy_text, collapse=""), split="[。！；]")
+tsang_text <- strsplit(paste(tsang_text, collapse=""), split="[。！；]")
 
-write.csv(cy_text, file="cy_text.csv", row.names=FALSE)
+write.csv(tsang_text[[1]], file="tsang_text.csv", row.names=FALSE)
+
+write.csv(cy_text[[1]], file="cy_text.csv", row.names=FALSE)
 
 ### using Python's Jieba to tokenize the text
 
@@ -33,7 +37,7 @@ policy_corpus <- Corpus(VectorSource(policytext$text))
 #policy_corpus <- tm_map(policy_corpus, removeWords, words = stopwords)
 
 tdm <- TermDocumentMatrix(policy_corpus, control=list(wordLengths=c(2, Inf)))
-tdm <- removeSparseTerms(tdm, (nrow(policytext)-2)/nrow(policytext)) ### keep terms appear at least thrice
+tdm <- removeSparseTerms(tdm, (nrow(policytext)-3)/nrow(policytext)) ### keep terms appear at least thrice
 
 ### tm package is buggy. remove the stopwords manually
 tdm_m <- as.matrix(tdm)[!dimnames(tdm)[[1]] %in% stopwords,]
@@ -62,6 +66,6 @@ topcy_terms <- cy_terms[order(cy_terms$chisqv, decreasing=TRUE),][1:400,]
 
 js_array <- c()
 for (i in 1:nrow(topcy_terms)) {
-  js_array[i] <- paste0('["', topcy_terms[i,1], '", "', round(topcy_terms[i,2] *4 ,3), '"]')
+  js_array[i] <- paste0('["', topcy_terms[i,1], '", "', round(topcy_terms[i,2] *2.5 ,3), '"]')
 }
 cat(readLines("header.txt"), paste(js_array, collapse=" , " ), readLines("footer.txt"), file="CY_terms.html")
